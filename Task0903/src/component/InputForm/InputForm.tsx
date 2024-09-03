@@ -136,7 +136,7 @@ const InputForm: React.FC<InputFormProps> = ({
         alert("동일한 이름으로 등록 된 리스트가 있어요.");
         return;
       }
-      const newList: Contact[] = [...contactList, item];
+      const newList: Contact[] = [item, ...contactList];
       setContactList(newList);
       localStorage.setItem("contactList", JSON.stringify(newList));
       //from 리셋

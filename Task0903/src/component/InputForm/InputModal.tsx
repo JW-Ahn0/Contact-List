@@ -21,12 +21,15 @@ const InputModal: React.FC<InputModalProps> = ({
     //중복 그룹 없애기 위해서
     if (groupList.indexOf(name) != -1) {
       alert("중복 그룹이 존재합니다. 추가할 수 없습니다.");
+      setGroupName("");
+      document.getElementById("groupModalInput")!.focus();
       return;
     }
     const newList = [...groupList, name];
     setGroupList(newList);
     setGroupListAtLocalStorage(newList);
     setGroupName("");
+    document.getElementById("groupModalInput")!.focus();
   }
   const handleRemoveBtnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     // 클릭된 버튼의 data-index 속성 값 가져옴.
@@ -68,6 +71,7 @@ const InputModal: React.FC<InputModalProps> = ({
         </ul>
         <div className="group-modal-input-con">
           <input
+            id="groupModalInput"
             type="text"
             value={groupName}
             onChange={handleInputChange}

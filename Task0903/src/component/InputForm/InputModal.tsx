@@ -1,12 +1,6 @@
 import { ChangeEvent, useState } from "react";
-
-// InputModal의 Props 인터페이스 정의
-interface InputModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  groupList: string[];
-  setGroupList: React.Dispatch<React.SetStateAction<string[]>>; // setGroupList 타입
-}
+import { InputModalProps } from "../../type/Props";
+import { setGroupListAtLocalStorage } from "../../util/localStorage";
 
 // 모달 컴포넌트
 const InputModal: React.FC<InputModalProps> = ({
@@ -18,10 +12,6 @@ const InputModal: React.FC<InputModalProps> = ({
   const [groupName, setGroupName] = useState("");
   if (!isOpen) return null;
 
-  function setGroupListAtLocalStorage(groupList: string[]): void {
-    localStorage.setItem("group", JSON.stringify(groupList));
-  }
-
   function removeGroupWithIndex(index: number) {
     const newList = groupList.filter((_, i) => i !== index);
     setGroupList(newList);
@@ -29,7 +19,10 @@ const InputModal: React.FC<InputModalProps> = ({
   }
   function addGroupWithName(name: string) {
     //중복 그룹 없애기 위해서
-    if (groupList.indexOf(name) != -1) return;
+    if (groupList.indexOf(name) != -1) {
+      alert("중복 그룹이 존재합니다. 추가할 수 없습니다.");
+      return;
+    }
     const newList = [...groupList, name];
     setGroupList(newList);
     setGroupListAtLocalStorage(newList);

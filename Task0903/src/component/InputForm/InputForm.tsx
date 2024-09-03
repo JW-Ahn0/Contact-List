@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { ChangeEvent, FormEvent } from "react";
+import { Contact } from "../../type/Contact";
+import { InputFormProps } from "../../type/Props";
+import { asssertType } from "../../util/typeGuard";
 
-interface Contact {
-  name: string;
-  phone: string;
-  group: string;
-  memo: string;
-}
 type FormFields = "name" | "phone" | "group" | "memo";
 //정규식 적용한 필드들
 type CheckListFields = Exclude<FormFields, "group" | "memo">;
@@ -17,21 +14,6 @@ type Patterns = {
 type ErrorMessages = {
   [key in CheckListFields]?: string;
 };
-
-//타입 가드 함수
-function asssertType<T>(value: unknown | null): asserts value is T {
-  if (!value) {
-    throw new Error(`the value : ${value} was not T type`);
-  }
-}
-
-// Props 타입 정의
-interface InputFormProps {
-  openModal: () => void;
-  groupList: string[];
-  setContactList: React.Dispatch<React.SetStateAction<Contact[]>>;
-  contactList: Contact[];
-}
 
 const InputForm: React.FC<InputFormProps> = ({
   openModal,
@@ -44,7 +26,7 @@ const InputForm: React.FC<InputFormProps> = ({
   const [memo, setMemo] = useState("");
   const patterns: Patterns = {
     //한글로 2글자 이상
-    name: /^[가-힣]{2,}$/,
+    name: /^[가-힣]{2,}\d*$/,
     //010-0000-0000 형식
     phone: /^010-\d{3,4}-\d{4}$/,
   };
@@ -137,9 +119,24 @@ const InputForm: React.FC<InputFormProps> = ({
     event.preventDefault(); // 기본 제출 동작을 막음
     if (vaildateForm()) {
       const item: Contact = makeItem();
+      let isDuplicate = false;
+      contactList.forEach((e) => {
+        if (e.name === item.name) {
+          isDuplicate = true;
+          return;
+        }
+      });
+      if (isDuplicate) {
+        alert("동일한 이름으로 등록 된 리스트가 있어요.");
+        return;
+      }
       const newList: Contact[] = [...contactList, item];
       setContactList(newList);
       localStorage.setItem("contactList", JSON.stringify(newList));
+      //from 리셋
+      setName("");
+      setPhone("");
+      setMemo("");
     } else {
       alert(
         "유효하지 않은 값이 존재합니다.\n이름과 전화번호를 한번더 확인해주세요."

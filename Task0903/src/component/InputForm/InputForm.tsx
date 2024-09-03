@@ -143,6 +143,8 @@ const InputForm: React.FC<InputFormProps> = ({
       setName("");
       setPhone("");
       setMemo("");
+      //리셋 후 포커스 주기
+      document.getElementById("name")!.focus();
     } else {
       alert(
         "유효하지 않은 값이 존재합니다.\n이름과 전화번호를 한번더 확인해주세요."

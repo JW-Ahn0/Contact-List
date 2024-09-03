@@ -7,6 +7,15 @@
   border-radius: 8px;
 }
 
+@media (max-width: 900px) {
+  .cotact-list-con {
+    border-top: 1px solid black;
+    border-radius: 0px;
+    border-left: 0;
+    border-right: 0;
+  }
+}
+
 .search-con {
   display: flex;
   gap: 8px;

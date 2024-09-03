@@ -1,0 +1,21 @@
+#title-header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#wrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+  margin: 16px auto;
+  max-width: 1200px;
+}
+
+#wrap > form:first-child {
+  flex-grow: 4;
+}
+#wrap > div:last-child {
+  flex-grow: 8;
+}

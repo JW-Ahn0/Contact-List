@@ -3,6 +3,7 @@ import { ChangeEvent, FormEvent } from "react";
 import { Contact } from "../../type/Contact";
 import { InputFormProps } from "../../type/Props";
 import { asssertType } from "../../util/typeGuard";
+import "./InputForm.css";
 
 type FormFields = "name" | "phone" | "group" | "memo";
 //정규식 적용한 필드들
@@ -74,8 +75,13 @@ const InputForm: React.FC<InputFormProps> = ({
     if (patterns[id]) {
       const isValid: boolean = patterns[id].test(input.value);
       const errorMessage: string = errorMessages[id] ?? "";
-      if (isValid) errorElement.textContent = "";
-      else errorElement.textContent = errorMessage;
+      if (isValid) {
+        errorElement.textContent = "";
+        errorElement.classList.add("d-none");
+      } else {
+        errorElement.textContent = errorMessage;
+        errorElement.classList.remove("d-none");
+      }
       return isValid;
     }
     return false;
@@ -145,18 +151,20 @@ const InputForm: React.FC<InputFormProps> = ({
   };
   return (
     <form id="inputForm" onSubmit={handleSubmit}>
-      <div>
+      <div className="input-form-item">
         <label htmlFor="name">이름</label>
         <input
           type="text"
           id="name"
           value={name}
           onChange={handleInputChange}
+          placeholder="이름"
         />
-        <span id="nameError" className="error"></span>
       </div>
-      <div>
-        <label htmlFor="phone">전화번호:</label>
+      <div id="nameError" className="error d-none"></div>
+
+      <div className="input-form-item">
+        <label htmlFor="phone">전화번호</label>
         <input
           type="text"
           id="phone"
@@ -165,31 +173,36 @@ const InputForm: React.FC<InputFormProps> = ({
           maxLength={13}
           placeholder="010-0000-0000"
         />
-        <span id="phoneError" className="error"></span>
       </div>
-      <div>
+      <div id="phoneError" className="error d-none"></div>
+      <div className="input-form-item">
         <label htmlFor="group">그룹</label>
-        <select name="group" id="group">
-          {groupList.map((group, index) => (
-            <option key={index} value={group}>
-              {group}
-            </option>
-          ))}
-        </select>
-        <button type="button" onClick={openModal}>
-          조직추가
-        </button>
+        <div>
+          <select name="group" id="group">
+            {groupList.map((group, index) => (
+              <option key={index} value={group}>
+                {group}
+              </option>
+            ))}
+          </select>
+          <button type="button" onClick={openModal}>
+            조직추가
+          </button>
+        </div>
       </div>
-      <div>
+      <div className="input-form-item">
         <label htmlFor="memo">간단한기록</label>
         <input
           type="text"
           value={memo}
           onChange={handleInputChange}
           id="memo"
+          placeholder="메모 내용"
         />
       </div>
-      <button type="submit">저장</button>
+      <button className="btn-blue" type="submit">
+        저장
+      </button>
     </form>
   );
 };

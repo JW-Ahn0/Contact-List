@@ -1,3 +1,4 @@
+import "./App.css";
 import { useState } from "react";
 import InputForm from "./component/InputForm/InputForm";
 import InputModal from "./component/InputForm/InputModal";
@@ -35,18 +36,23 @@ function App() {
 
   return (
     <>
-      <InputForm
-        openModal={openGroupModal}
-        groupList={groupList}
-        contactList={contactList}
-        setContactList={setContactList}
-      />
-      <ContactList
-        setSelectedIndex={setSelectedIndex}
-        contactList={contactList}
-        setContactList={setContactList}
-        openContactDetailModal={openContactDetailModal}
-      />
+      <header id="title-header">
+        <h1>연락처 리스트</h1>
+      </header>
+      <div id="wrap">
+        <InputForm
+          openModal={openGroupModal}
+          groupList={groupList}
+          contactList={contactList}
+          setContactList={setContactList}
+        />
+        <ContactList
+          setSelectedIndex={setSelectedIndex}
+          contactList={contactList}
+          setContactList={setContactList}
+          openContactDetailModal={openContactDetailModal}
+        />
+      </div>
       <ContactDetailModal
         isOpen={isContactDetailModalOpen}
         onClose={closeContactDetailModal}

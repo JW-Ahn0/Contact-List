@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Contact } from "../../type/Contact";
 import { ContactListProps } from "../../type/Props";
-
+import "./ContactList.css";
 const ContactList: React.FC<ContactListProps> = ({
   setSelectedIndex,
   contactList,
@@ -73,35 +73,41 @@ const ContactList: React.FC<ContactListProps> = ({
     localStorage.setItem("contactList", JSON.stringify(newList));
   }
   return (
-    <div>
-      <div>
+    <div className="cotact-list-con">
+      <div className="search-con">
         <input
           value={searchKeyword}
           onChange={handleInputChange}
           onKeyUp={handleKeyboardInput}
           placeholder="검색어를 입력 후 엔터를 누르세요"
         ></input>
-        <button onClick={handleAllListBtnClick}>전체리스트 보기</button>
+        <button className="btn-blue" onClick={handleAllListBtnClick}>
+          전체리스트 보기
+        </button>
       </div>
-      <ul>
-        {contactList.map((contact, index) => (
-          <li key={index}>
-            <div>
-              <span>{contact.name}</span>
-              <span>{contact.phone}</span>
-              <span>{contact.group}</span>
-            </div>
+      <ul className="contact-list">
+        {contactList.length === 0 ? (
+          <h1>검색 결과가 존재하지 않습니다.</h1>
+        ) : (
+          contactList.map((contact, index) => (
+            <li key={index}>
+              <div className="contact-item-info">
+                <span>{contact.name}</span>
+                <span>{contact.phone}</span>
+                <span>{contact.group}</span>
+              </div>
 
-            <div>
-              <button data-index={index} onClick={handleDetailBtnClick}>
-                세부사항
-              </button>
-              <button data-index={index} onClick={handleRemoveBtnClick}>
-                삭제
-              </button>
-            </div>
-          </li>
-        ))}
+              <div className="contact-item-bnts">
+                <button data-index={index} onClick={handleDetailBtnClick}>
+                  세부사항
+                </button>
+                <button data-index={index} onClick={handleRemoveBtnClick}>
+                  삭제
+                </button>
+              </div>
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );

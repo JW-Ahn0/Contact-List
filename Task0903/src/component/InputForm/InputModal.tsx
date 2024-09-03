@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { InputModalProps } from "../../type/Props";
 import { setGroupListAtLocalStorage } from "../../util/localStorage";
-
+import "./InputModal.css";
 // 모달 컴포넌트
 const InputModal: React.FC<InputModalProps> = ({
   isOpen,
@@ -46,22 +46,35 @@ const InputModal: React.FC<InputModalProps> = ({
     setGroupName(Element.value);
   };
   return (
-    <div>
-      <button onClick={onClose}>닫기</button>
-      <div>
+    <div className="modal-overlay">
+      <button className="btn-orange" onClick={onClose}>
+        닫기
+      </button>
+      <div className="modal-content">
         <h2>그룹 관리</h2>
         <ul>
           {groupList.map((group, index) => (
             <li key={index}>
               <span>{group}</span>
-              <button data-index={index} onClick={handleRemoveBtnClick}>
+              <button
+                className="group-item-delete-btn"
+                data-index={index}
+                onClick={handleRemoveBtnClick}
+              >
                 X
               </button>
             </li>
           ))}
         </ul>
-        <input type="text" value={groupName} onChange={handleInputChange} />
-        <button onClick={handleAddBtnClick}>추가</button>
+        <div className="group-modal-input-con">
+          <input
+            type="text"
+            value={groupName}
+            onChange={handleInputChange}
+            placeholder="새 그룹 이름 "
+          />
+          <button onClick={handleAddBtnClick}>추가</button>
+        </div>
       </div>
     </div>
   );
